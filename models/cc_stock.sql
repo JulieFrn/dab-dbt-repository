@@ -1,17 +1,14 @@
 WITH cc_sales_products AS (
     SELECT * FROM {{ ref('cc_sales_products') }}
   ),
-
 stg_cc_stock AS (
   SELECT
     ### Key ###
-    CONCAT(model,"_",color,"_",IFNULL(size,"no-size")) AS product_id 
+    CONCAT(model,"_",color,"_",IFNULL(size,"no-size")) AS product_id,
     ###########
-    ,model
+    model
     ,color
-    ,size
-    --name--
-    ,model_name
+    ,size ,model_name
     ,color_name
     ,CONCAT(model_name," ",color_name,IF(size IS NULL,"",CONCAT(" - Taille ",size))) AS product_name
     -- product info --
@@ -21,7 +18,7 @@ stg_cc_stock AS (
     ,stock
     -- value
     ,price
-  FROM cc_sales_products AS t
+  FROM `raw_data_circle.raw_cc_stock` as t
 )
 
 
